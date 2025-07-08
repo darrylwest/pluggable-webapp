@@ -136,15 +136,18 @@ You will see the JSON response from your server.
 
 ## Using Unix Sockets in Express
 
-Here is an example:
+Here is an example in typescript:
 
-```
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+```typescript
+// server.ts
 
-const app = express();
-const socketPath = path.join(__dirname, 'app.sock');
+import express, { Request, Response, Application } from 'express';
+import * as fs from 'fs';
+import * as path from 'path';
+import { Server } from 'http'; // Import the Server type from Node's http module
+
+const app: Application = express();
+const socketPath: string = path.join(__dirname, 'app.sock');
 
 // --- Crucial: Clean up the socket file before starting ---
 // If the server crashes, the socket file may not be removed,
@@ -154,17 +157,22 @@ try {
         console.log('Removing old socket file...');
         fs.unlinkSync(socketPath);
     }
-} catch (err) {
-    console.error(err);
+} catch (err: unknown) { // Type the error as 'unknown' for safety
+    if (err instanceof Error) {
+        console.error(`Error removing socket file: ${err.message}`);
+    } else {
+        console.error('An unknown error occurred while removing the socket file.', err);
+    }
     process.exit(1);
 }
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     res.send('Hello from your Express app via a Unix socket!');
 });
 
 // Instead of app.listen(3000), we listen on the file path.
-const server = app.listen(socketPath, () => {
+// The 'server' constant is typed as http.Server for better type-checking.
+const server: Server = app.listen(socketPath, () => {
     // Set permissions on the socket file.
     // This allows the web server (e.g., Nginx) to access it.
     // 777 is permissive for demonstration; in production, you might use 660
@@ -176,7 +184,11 @@ const server = app.listen(socketPath, () => {
 // Handle graceful shutdown
 process.on('SIGINT', () => {
     console.log('Shutting down server...');
-    server.close(() => {
+    server.close((err?: Error) => { // The callback can receive an optional Error
+        if (err) {
+            console.error('Error during server shutdown:', err);
+            process.exit(1);
+        }
         // The socket file is automatically removed when the server closes gracefully.
         console.log('Server shut down.');
         process.exit(0);

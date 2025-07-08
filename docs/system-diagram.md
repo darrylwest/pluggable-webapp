@@ -7,7 +7,6 @@
 * REST routes, middleware, logic
 * auth-service
 * models service
-* socks-db
 * Redis/Valkey
 
 ## Block Diagram
@@ -38,22 +37,18 @@ This is the primary entry point for the client application. It handles incoming 
 
 ### Auth Service: 
 
-A dedicated microservice for handling all authentication and authorization logic.
+A dedicated Firebase service for handling all authentication logic.
 
 * communicates with Firebase (an external IdP - Identity Provider) to validate user tokens (e.g., JWTs).
-* communicates with socks-db to potentially retrieve or store user session data or permissions that are kept in Redis.
+* communicates with database to potentially retrieve or store user session data or permissions/roles that are kept in Valkey.
 
 ### Models Service: 
 
-This service contains the core business logic of your application. It defines how data is structured, validated, and manipulated. It doesn't know how to talk to the database directly; instead, it delegates storage operations to socks-db.
+This service contains the core business logic of your application. It defines how data is structured, validated, and manipulated. It communicates directly with Valkey.
 
-### socks-db: 
+### Valkey: 
 
-This is a crucial and unique component. It acts as a database proxy or adapter. Its main purpose is to translate requests received over high-performance Unix sockets from the Models and Auth services into raw database commands sent over TCP sockets to Redis/Valkey.
-
-### Redis / Valkey: 
-
-The in-memory database. It's the final destination for data storage and retrieval, only accessible via the socks-db proxy.
+The in-memory database. It's the final destination for data storage and retrieval
 
 ## **Interaction Flow (A Typical Request)**
 
@@ -61,7 +56,7 @@ _The arrows on the diagram illustrate the lifecycle of a typical API request:_
 
 ### Initial Load: 
 
-The user's browser requests the web page. The Static Web Service serves the necessary HTML, CSS, and JS files. The Web Application now loads and runs in the browser.
+The user's browser requests the web page. The Static Web Service serves the necessary HTML, CSS, js, image files. The Web Application now loads and runs in the browser.
 
 ### API Call: 
 
@@ -81,17 +76,13 @@ Once the user is authenticated, the REST API's logic proceeds. It calls the Mode
 
 ### DB Operation: 
 
-The Models Service translates the business operation into a data operation and tells the socks-db service what to do via its Unix socket interface.
-
-### Database Command: 
-
-The socks-db proxy translates the request into the appropriate Redis command and sends it over a TCP socket to the Redis/Valkey server. The data is retrieved and the response flows back up the same chain to the user.
+The Models Service translates the business operation into a data operation and tells the Valkey what to do via its Unix socket interface.
 
 ## Key Architectural Concepts Highlighted
 
 ### Microservices: 
 
-The system is decomposed into small, independently deployable services (Auth, Models, socks-db).
+The system is decomposed into small, independently deployable services (Auth, Models, database).
 
 ### API Gateway: 
 
@@ -99,7 +90,7 @@ The REST API service acts as a single entry point for the client, simplifying th
 
 ### Separation of Concerns: 
 
-Each component has a single, well-defined responsibility. For example, Models handles business logic, while socks-db handles only database communication protocol translation.
+Each component has a single, well-defined responsibility.
 
 ### Socket-based IPC: 
 
@@ -109,15 +100,11 @@ You are using sockets for Inter-Process Communication instead of the more common
 
 These are used for communication between services running on the same host machine. They are generally faster and have lower overhead than TCP/IP sockets because they don't go through the network stack. This is an excellent choice for performance-critical, co-located services.
 
-### TCP Sockets: 
-
-Used for communication between socks-db and Redis, which is standard as they may be running on different machines in a cluster.
-
 ## What makes this Architecture "Pluggable"
 
 * ability to swap out areas of concern, e.g., microservices
 * ability to replace all html, css, and javascript with custom look and feel
 * ability replace model logic with alternate model service
 
-###### dpw | 2025-07-08 | 81TnlYRJ2nVm
+###### dpw | 2025-07-08 | 81VGuoxOadCK
 
