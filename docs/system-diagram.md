@@ -2,13 +2,13 @@
 
 ## Services
 
-* Redis/Valkey
-* socks-db
-* models
-* auth-service
-* REST routes, middleware, logic
-* static web service
 * web application
+* static web service, HTML, css, javascript
+* REST routes, middleware, logic
+* auth-service
+* models service
+* socks-db
+* Redis/Valkey
 
 ## Block Diagram
 
