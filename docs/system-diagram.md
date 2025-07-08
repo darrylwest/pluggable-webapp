@@ -1,4 +1,4 @@
-# Web Applicatio System Diagram
+# Web Application System Diagram
 
 ## Services
 
