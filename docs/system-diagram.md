@@ -24,11 +24,15 @@ This architecture separates concerns into different logical tiers, communicating
 
 This is the user interface, prototyped with WebFlow. It's delivered by the static server and runs entirely in the user's browser. Its job is to render the UI and make API calls to the backend.
 
+### Reverse Proxy: 
+
+To forward requests to backend services, both static web and REST servers via unix sockets.
+
 ### Static Web Service: 
 
-A lightweight web server (like Caddy or Nginx) whose sole responsibility is to serve the static assets (HTML, CSS, JavaScript files) that make up the Web Application.
+A lightweight web server whose sole responsibility is to serve the static assets (HTML, CSS, JavaScript files) that make up the Web Application.
 
-### REST API Gateway: 
+### REST API Service: 
 
 This is the primary entry point for the client application. It handles incoming HTTP requests, performs routing, and orchestrates calls to the internal services. It acts as a facade, hiding the complexity of the internal service-to-service communication.
 
@@ -36,8 +40,8 @@ This is the primary entry point for the client application. It handles incoming 
 
 A dedicated microservice for handling all authentication and authorization logic.
 
-It communicates with Firebase (an external IdP - Identity Provider) to validate user tokens (e.g., JWTs).
-It communicates with socks-db to potentially retrieve or store user session data or permissions that are kept in Redis.
+* communicates with Firebase (an external IdP - Identity Provider) to validate user tokens (e.g., JWTs).
+* communicates with socks-db to potentially retrieve or store user session data or permissions that are kept in Redis.
 
 ### Models Service: 
 
@@ -53,7 +57,7 @@ The in-memory database. It's the final destination for data storage and retrieva
 
 ## **Interaction Flow (A Typical Request)**
 
-_The numbered arrows on the diagram illustrate the lifecycle of a typical API request:_
+_The arrows on the diagram illustrate the lifecycle of a typical API request:_
 
 ### Initial Load: 
 
@@ -115,5 +119,5 @@ Used for communication between socks-db and Redis, which is standard as they may
 * ability to replace all html, css, and javascript with custom look and feel
 * ability replace model logic with alternate model service
 
-###### dpw | 2025-07-07 | 81TnlYRJ2nVm
+###### dpw | 2025-07-08 | 81TnlYRJ2nVm
 
