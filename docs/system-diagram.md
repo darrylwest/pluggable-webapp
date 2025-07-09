@@ -1,13 +1,13 @@
 # Web Application System Diagram
 
-## Services
+## Services Overview
 
-* web application
-* static web service, HTML, css, javascript
-* REST routes, middleware, logic
-* auth-service
-* models service
-* Redis/Valkey
+* **web application** (the HTML, css, typescript, and image files)
+* **reverse proxy**: to direct traffic to web pages and REST server
+* **static web service** to serve the web application
+* **REST server** for routes, middleware, models, and logic
+* **auth-service**: a Firebase service to sign-up, sign-in, sign-out, etc. users
+* **Valkey** the database instance
 
 ## Block Diagram
 
@@ -33,7 +33,8 @@ A lightweight web server whose sole responsibility is to serve the static assets
 
 ### REST API Service: 
 
-This is the primary entry point for the client application. It handles incoming HTTP requests, performs routing, and orchestrates calls to the internal services. It acts as a facade, hiding the complexity of the internal service-to-service communication.
+This is the primary entry point for the client web application. It handles incoming HTTP requests, performs routing, and orchestrates calls to other internal services (e.g., auth service).
+It defines how data is structured, validated, and manipulated. It communicates directly with the database store, Valkey.
 
 ### Auth Service: 
 
@@ -42,9 +43,6 @@ A dedicated Firebase service for handling all authentication logic.
 * communicates with Firebase (an external IdP - Identity Provider) to validate user tokens (e.g., JWTs).
 * communicates with database to potentially retrieve or store user session data or permissions/roles that are kept in Valkey.
 
-### Models Service: 
-
-This service contains the core business logic of your application. It defines how data is structured, validated, and manipulated. It communicates directly with Valkey.
 
 ### Valkey: 
 
@@ -72,17 +70,13 @@ The Auth Service validates the token signature, possibly by making an HTTPS call
 
 ### Data Request: 
 
-Once the user is authenticated, the REST API's logic proceeds. It calls the Models Service (again, over a Unix socket) to perform the required business operation (e.g., getSocksList()).
-
-### DB Operation: 
-
-The Models Service translates the business operation into a data operation and tells the Valkey what to do via its Unix socket interface.
+Once the user is authenticated, the REST API's logic proceeds. It references the user in Valkey and verifies authorization using basic roles.
 
 ## Key Architectural Concepts Highlighted
 
 ### Microservices: 
 
-The system is decomposed into small, independently deployable services (Auth, Models, database).
+The system is decomposed into independently deployable services (Web Pages, REST, Auth, database).
 
 ### API Gateway: 
 
@@ -106,5 +100,5 @@ These are used for communication between services running on the same host machi
 * ability to replace all html, css, and javascript with custom look and feel
 * ability replace model logic with alternate model service
 
-###### dpw | 2025-07-08 | 81VGuoxOadCK
+###### dpw | 2025-07-10 | 81WboxYWdYZv
 
