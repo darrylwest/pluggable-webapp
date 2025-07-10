@@ -91,6 +91,148 @@ export interface CancellationPolicy {
 }
 ```
 
+## Appointment/Calendar System Models
+
+### Availability Model
+
+Defines when a user or resource is available for appointments.
+
+```typescript
+export interface AvailabilityModel extends BaseModel {
+    user_key: string;                    // reference to UserModel
+    day_of_week: number;                 // 0-6 (Sunday-Saturday)
+    start_time: string;                  // HH:MM format (24-hour)
+    end_time: string;                    // HH:MM format (24-hour)
+    date_range_start?: number;           // specific date range start (Date.now())
+    date_range_end?: number;             // specific date range end (Date.now())
+    timezone: string;                    // timezone identifier (e.g., "America/New_York")
+    is_recurring: boolean;               // true for weekly recurring availability
+    exceptions?: AvailabilityException[]; // specific dates to exclude
+}
+
+export interface AvailabilityException {
+    date: number;                        // Date.now() for the exception date
+    reason?: string;                     // optional reason for unavailability
+}
+```
+
+### Appointment Model
+
+Represents scheduled appointments between users.
+
+```typescript
+export interface AppointmentModel extends BaseModel {
+    title: string;                       // appointment title/subject
+    description?: string;                // optional detailed description
+    organizer_key: string;               // reference to UserModel who created appointment
+    attendees: AppointmentAttendee[];    // list of attendees
+    start_time: string;                  // HH:MM format (24-hour)
+    end_time: string;                    // HH:MM format (24-hour)
+    timezone: string;                    // timezone identifier
+    location?: AppointmentLocation;      // optional location details
+    appointment_type: string;            // "meeting", "call", "consultation", etc.
+    is_recurring: boolean;               // true for recurring appointments
+    recurrence_pattern?: RecurrencePattern; // pattern for recurring appointments
+    reminders?: AppointmentReminder[];   // notification reminders
+    metadata?: Map<string, string>;      // additional custom data
+}
+
+export interface AppointmentAttendee {
+    user_key: string;                    // reference to UserModel
+    status: 'pending' | 'accepted' | 'declined' | 'tentative';
+    is_required: boolean;                // true if attendance is required
+    role?: string;                       // optional role in the appointment
+}
+
+export interface AppointmentLocation {
+    type: 'physical' | 'virtual' | 'phone';
+    address?: AddressModel;              // for physical locations
+    virtual_link?: string;               // for virtual meetings (Zoom, Teams, etc.)
+    phone_number?: string;               // for phone conferences
+    room_name?: string;                  // specific room or location name
+}
+
+export interface RecurrencePattern {
+    frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+    interval: number;                    // every N days/weeks/months/years
+    days_of_week?: number[];             // for weekly: [0,1,2,3,4,5,6]
+    day_of_month?: number;               // for monthly: 1-31
+    month_of_year?: number;              // for yearly: 1-12
+    end_date?: number;                   // when recurrence ends (Date.now())
+    max_occurrences?: number;            // max number of occurrences
+}
+
+export interface AppointmentReminder {
+    minutes_before: number;              // how many minutes before appointment
+    method: 'email' | 'sms' | 'push' | 'popup';
+    message?: string;                    // optional custom reminder message
+}
+```
+
+### Calendar Model
+
+Represents a calendar that contains appointments.
+
+```typescript
+export interface CalendarModel extends BaseModel {
+    name: string;                        // calendar name
+    owner_key: string;                   // reference to UserModel
+    color?: string;                      // hex color code for UI display
+    is_public: boolean;                  // true if calendar is publicly viewable
+    shared_with?: CalendarShare[];       // users who have access to this calendar
+    timezone: string;                    // default timezone for this calendar
+    description?: string;                // optional calendar description
+}
+
+export interface CalendarShare {
+    user_key: string;                    // reference to UserModel
+    permission: 'view' | 'edit' | 'admin';
+    date_shared: number;                 // Date.now() when access was granted
+}
+```
+
+### Booking Model
+
+For appointment booking requests and management.
+
+```typescript
+export interface BookingModel extends BaseModel {
+    requested_by_key: string;            // reference to UserModel making the request
+    provider_key: string;                // reference to UserModel providing the service
+    requested_start_time: string;        // HH:MM
+    requested_end_time: string;          // HH:MM
+    confirmed_start_time?: string;       // HH:MM
+    confirmed_end_time?: string;         // HH:MM
+    service_type: string;                // type of service being booked
+    booking_status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+    cancellation_reason?: string;        // reason if cancelled
+    appointment_key?: string;            // reference to created AppointmentModel
+    notes?: string;                      // additional booking notes
+    payment_required: boolean;           // true if payment is needed
+    payment_amount?: number;             // amount in cents
+    payment_status?: 'pending' | 'paid' | 'refunded';
+    waiting_list?: WaitingListEntry[];   // users waiting for this time slot
+    allows_waiting_list: boolean;        // true if waiting list is enabled for this booking
+}
+
+export interface WaitingListEntry {
+    user_key: string;                    // reference to UserModel on waiting list
+    date_added: string;                  // YYYY-MM-DD
+    priority: number;                    // 1 = highest priority, higher numbers = lower priority
+    notification_preferences: NotificationPreference[];
+    is_active: boolean;                  // false if user no longer wants to be notified
+    max_wait_time?: number;              // optional: max minutes they'll wait for notification response
+    auto_book: boolean;                  // true if they want automatic booking if slot opens
+    notes?: string;                      // optional notes from the user
+}
+
+export interface NotificationPreference {
+    method: 'email' | 'sms' | 'push' | 'phone';
+    contact_info: string;                // email address, phone number, etc.
+    is_primary: boolean;                 // true for the preferred notification method
+}
+```
+
 ## Waiting List Management System
 
 ### Waiting List Service Interface
@@ -167,149 +309,6 @@ export interface WaitingListEvent extends BaseModel {
 }
 ```
 
-
-## Appointment/Calendar System Models
-
-### Availability Model
-
-Defines when a user or resource is available for appointments.
-
-```typescript
-export interface AvailabilityModel extends BaseModel {
-    user_key: string;                    // reference to UserModel
-    day_of_week: number;                 // 0-6 (Sunday-Saturday)
-    start_time: string;                  // HH:MM format (24-hour)
-    end_time: string;                    // HH:MM format (24-hour)
-    date_range_start?: number;           // specific date range start (Date.now())
-    date_range_end?: number;             // specific date range end (Date.now())
-    timezone: string;                    // timezone identifier (e.g., "America/New_York")
-    is_recurring: boolean;               // true for weekly recurring availability
-    exceptions?: AvailabilityException[]; // specific dates to exclude
-}
-
-export interface AvailabilityException {
-    date: number;                        // Date.now() for the exception date
-    reason?: string;                     // optional reason for unavailability
-}
-```
-
-### Appointment Model
-
-Represents scheduled appointments between users.
-
-```typescript
-export interface AppointmentModel extends BaseModel {
-    title: string;                       // appointment title/subject
-    description?: string;                // optional detailed description
-    organizer_key: string;               // reference to UserModel who created appointment
-    attendees: AppointmentAttendee[];    // list of attendees
-    start_time: number;                  // Date.now() for appointment start
-    end_time: number;                    // Date.now() for appointment end
-    timezone: string;                    // timezone identifier
-    location?: AppointmentLocation;      // optional location details
-    appointment_type: string;            // "meeting", "call", "consultation", etc.
-    is_recurring: boolean;               // true for recurring appointments
-    recurrence_pattern?: RecurrencePattern; // pattern for recurring appointments
-    reminders?: AppointmentReminder[];   // notification reminders
-    metadata?: Map<string, string>;      // additional custom data
-}
-
-export interface AppointmentAttendee {
-    user_key: string;                    // reference to UserModel
-    status: 'pending' | 'accepted' | 'declined' | 'tentative';
-    is_required: boolean;                // true if attendance is required
-    role?: string;                       // optional role in the appointment
-}
-
-export interface AppointmentLocation {
-    type: 'physical' | 'virtual' | 'phone';
-    address?: AddressModel;              // for physical locations
-    virtual_link?: string;               // for virtual meetings (Zoom, Teams, etc.)
-    phone_number?: string;               // for phone conferences
-    room_name?: string;                  // specific room or location name
-}
-
-export interface RecurrencePattern {
-    frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
-    interval: number;                    // every N days/weeks/months/years
-    days_of_week?: number[];             // for weekly: [0,1,2,3,4,5,6]
-    day_of_month?: number;               // for monthly: 1-31
-    month_of_year?: number;              // for yearly: 1-12
-    end_date?: number;                   // when recurrence ends (Date.now())
-    max_occurrences?: number;            // max number of occurrences
-}
-
-export interface AppointmentReminder {
-    minutes_before: number;              // how many minutes before appointment
-    method: 'email' | 'sms' | 'push' | 'popup';
-    message?: string;                    // optional custom reminder message
-}
-```
-
-### Calendar Model
-
-Represents a calendar that contains appointments.
-
-```typescript
-export interface CalendarModel extends BaseModel {
-    name: string;                        // calendar name
-    owner_key: string;                   // reference to UserModel
-    color?: string;                      // hex color code for UI display
-    is_public: boolean;                  // true if calendar is publicly viewable
-    shared_with?: CalendarShare[];       // users who have access to this calendar
-    timezone: string;                    // default timezone for this calendar
-    description?: string;                // optional calendar description
-}
-
-export interface CalendarShare {
-    user_key: string;                    // reference to UserModel
-    permission: 'view' | 'edit' | 'admin';
-    date_shared: number;                 // Date.now() when access was granted
-}
-```
-
-### Booking Model
-
-For appointment booking requests and management.
-
-```typescript
-export interface BookingModel extends BaseModel {
-    requested_by_key: string;            // reference to UserModel making the request
-    provider_key: string;                // reference to UserModel providing the service
-    requested_start_time: number;        // Date.now() for requested start
-    requested_end_time: number;          // Date.now() for requested end
-    confirmed_start_time?: number;       // actual confirmed start time
-    confirmed_end_time?: number;         // actual confirmed end time
-    service_type: string;                // type of service being booked
-    booking_status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
-    cancellation_reason?: string;        // reason if cancelled
-    appointment_key?: string;            // reference to created AppointmentModel
-    notes?: string;                      // additional booking notes
-    payment_required: boolean;           // true if payment is needed
-    payment_amount?: number;             // amount in cents
-    payment_status?: 'pending' | 'paid' | 'refunded';
-    waiting_list?: WaitingListEntry[];   // users waiting for this time slot
-    allows_waiting_list: boolean;        // true if waiting list is enabled for this booking
-}
-
-export interface WaitingListEntry {
-    user_key: string;                    // reference to UserModel on waiting list
-    date_added: number;                  // Date.now() when added to waiting list
-    priority: number;                    // 1 = highest priority, higher numbers = lower priority
-    notification_preferences: NotificationPreference[];
-    is_active: boolean;                  // false if user no longer wants to be notified
-    max_wait_time?: number;              // optional: max minutes they'll wait for notification response
-    auto_book: boolean;                  // true if they want automatic booking if slot opens
-    notes?: string;                      // optional notes from the user
-}
-
-export interface NotificationPreference {
-    method: 'email' | 'sms' | 'push' | 'phone';
-    contact_info: string;                // email address, phone number, etc.
-    is_primary: boolean;                 // true for the preferred notification method
-}
-```
-
 ### Waiting List Notification Model
 
 Tracks notifications sent to waiting list users when slots become available.
@@ -336,8 +335,8 @@ Represents available time slots that can have waiting lists.
 ```typescript
 export interface TimeSlotModel extends BaseModel {
     provider_key: string;                // reference to UserModel providing the service
-    start_time: number;                  // Date.now() for slot start
-    end_time: number;                    // Date.now() for slot end
+    start_time: string;                  // HH:MM
+    end_time: string;                    // HH:MM
     service_type: string;                // type of service for this slot
     is_available: boolean;               // true if slot is still available
     current_booking_key?: string;        // reference to current BookingModel if booked
@@ -615,6 +614,5 @@ export class WaitingListManager {
 }
 ```
 
----
 
-###### dpw | 2025-07-10 | 81VOlU6XYyhM | Updated with complete TypeScript implementations and waiting list functionality:
+###### dpw | 2025-07-11 | 81VOlU6XYyhM
