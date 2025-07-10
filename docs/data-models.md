@@ -82,15 +82,6 @@ export interface UserModel extends ContactModel {
 }
 ```
 
-```
-export interface CancellationPolicy {
-    advance_notice_required: number;     // minutes of advance notice required
-    refund_policy: 'full' | 'partial' | 'none';
-    partial_refund_percentage?: number;  // if partial refund
-    waiting_list_notification_window: number; // minutes to notify waiting list
-}
-```
-
 ## Appointment/Calendar System Models
 
 ### Availability Model
@@ -118,7 +109,7 @@ export interface AvailabilityException {
 
 ### Appointment Model
 
-Represents scheduled appointments between users.
+Represents scheduled appointments between providers and users.
 
 ```typescript
 export interface AppointmentModel extends BaseModel {
@@ -126,6 +117,7 @@ export interface AppointmentModel extends BaseModel {
     description?: string;                // optional detailed description
     organizer_key: string;               // reference to UserModel who created appointment
     attendees: AppointmentAttendee[];    // list of attendees
+    appointment_date: number;            // the Date that this appointment occurs
     start_time: string;                  // HH:MM format (24-hour)
     end_time: string;                    // HH:MM format (24-hour)
     timezone: string;                    // timezone identifier
@@ -166,6 +158,13 @@ export interface AppointmentReminder {
     minutes_before: number;              // how many minutes before appointment
     method: 'email' | 'sms' | 'push' | 'popup';
     message?: string;                    // optional custom reminder message
+}
+
+export interface CancellationPolicy {
+    advance_notice_required: number;     // minutes of advance notice required
+    refund_policy: 'full' | 'partial' | 'none';
+    partial_refund_percentage?: number;  // if partial refund
+    waiting_list_notification_window: number; // minutes to notify waiting list
 }
 ```
 
@@ -330,6 +329,8 @@ export interface WaitingListNotificationModel extends BaseModel {
 
 ### Time Slot Model
 
+
+
 Represents available time slots that can have waiting lists.
 
 ```typescript
@@ -421,8 +422,9 @@ const appointment: AppointmentModel = {
             is_required: true
         }
     ],
-    start_time: Date.now() + 86400000, // tomorrow
-    end_time: Date.now() + 86400000 + 3600000, // tomorrow + 1 hour
+    appointment_date: Date.now() + Days(5), // 5 days from today
+    start_time: "13:00",  // 1:00pm
+    end_time: "13:45",    // 1:30pm
     timezone: "America/New_York",
     appointment_type: "meeting",
     is_recurring: false
@@ -614,5 +616,4 @@ export class WaitingListManager {
 }
 ```
 
-
-###### dpw | 2025-07-11 | 81VOlU6XYyhM
+###### dpw | 2025-07-11 | 81Y0PMktrdDm
