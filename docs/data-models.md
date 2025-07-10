@@ -41,8 +41,6 @@ export interface WaitingListService {
     
     // Remove user from waiting list
     removeFromWaitingList(bookingKey: string, userKey: string): Promise<boolean>;
-    
-    // Process cancellation and notify waiting list
     processCancellation(bookingKey: string, reason: string): Promise<NotificationResult[]>;
     
     // Handle waiting list response
