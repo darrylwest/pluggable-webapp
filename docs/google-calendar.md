@@ -54,5 +54,6 @@ In conclusion, if you need a quick and simple way to display a public calendar a
 * [google calendar api](https://developers.google.com/workspace/calendar)
 * [calendar API overview](https://developers.google.com/workspace/calendar/api/guides/overview)
 * [API Reference](https://developers.google.com/workspace/calendar/api/v3/reference)
+* [Typescript Client](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Calendar.html)
 
 ###### dpw | 2025-07-14

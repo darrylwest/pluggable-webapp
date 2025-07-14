@@ -1,5 +1,15 @@
 # Pluggable Web Application
 
+## 
+
+I need to create a full stack web app using tRPC for client and server in a mono-repo.  
+
+The project layout would look something like this
+
+plugin-project
+
+The html, css, and images will be served from a 
+
 ## Primary Goals
 
 * flexibility: swap logic modules with a minimum of side effects
@@ -39,4 +49,7 @@ End-to-End Type Safety: By having the tRPC router definitions for your wrapper w
 
 Simplified Monorepo Management: It keeps related server-side logic co-located and makes dependency management straightforward within your monorepo.
 
-###### dpw | 2025-07-12 | 81TpmjcnPhcn
+###### dpw | 2025-07-14
+
+
+
