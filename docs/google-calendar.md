@@ -48,4 +48,9 @@ For a truly integrated and branded experience, the Google Calendar API is the re
 
 In conclusion, if you need a quick and simple way to display a public calendar and are not concerned with custom branding, the **iFrame method** is a suitable choice. However, for a professional, feature-rich, and seamlessly integrated customer-facing application, the **Google Calendar API** is the superior and recommended solution.
 
+## References
+
+* [how to video](https://www.youtube.com/watch?v=h605V2y0DsI)
+* [google calendar api](https://developers.google.com/workspace/calendar)
+
 ###### dpw | 2025-07-14
