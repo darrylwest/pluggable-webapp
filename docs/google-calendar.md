@@ -52,5 +52,7 @@ In conclusion, if you need a quick and simple way to display a public calendar a
 
 * [how to video](https://www.youtube.com/watch?v=h605V2y0DsI)
 * [google calendar api](https://developers.google.com/workspace/calendar)
+* [calendar API overview](https://developers.google.com/workspace/calendar/api/guides/overview)
+* [API Reference](https://developers.google.com/workspace/calendar/api/v3/reference)
 
 ###### dpw | 2025-07-14
