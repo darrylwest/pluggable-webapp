@@ -6,7 +6,34 @@ I need to create a full stack web app using tRPC for client and server in a mono
 
 The project layout would look something like this
 
-plugin-project
+plugin-webapp
+├── CLAUDE.md
+├── node_modules
+├── package.json
+├── packages
+│   ├── client
+│   │   ├── dist
+│   │   │   ├── client
+│   │   │   └── server
+│   │   ├── index.html
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   └── css
+│   │   │   └── images
+│   │   ├── src
+│   │   │   ├── assets
+│   │   │   │   └── css
+│   │   │   │   └── images
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   └── server
+│       ├── package.json
+│       ├── src
+│       │   ├── index.ts
+│       │   └── router.ts
+│       └── tsconfig.json
+├── README.md
+└── tsconfig.json
 
 The html, css, and images will be served from a 
 
@@ -21,7 +48,8 @@ The html, css, and images will be served from a
 ## Node/Typescript Dependencies
 
 * node
-* npm
+* npm for the server server dev mode
+* vite for the client dev mode
 * typescript
 * tRPC for client/server and server-to-server
 * zod for model validation
@@ -50,6 +78,4 @@ End-to-End Type Safety: By having the tRPC router definitions for your wrapper w
 Simplified Monorepo Management: It keeps related server-side logic co-located and makes dependency management straightforward within your monorepo.
 
 ###### dpw | 2025-07-14
-
-
 
