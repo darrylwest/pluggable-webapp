@@ -55,5 +55,12 @@ In conclusion, if you need a quick and simple way to display a public calendar a
 * [calendar API overview](https://developers.google.com/workspace/calendar/api/guides/overview)
 * [API Reference](https://developers.google.com/workspace/calendar/api/v3/reference)
 * [Typescript Client](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Calendar.html)
+* [Big Github List of Projects using GoogleCalendar APIs + Typescript](https://github.com/search?q=google+calendar+api+language%3ATypeScript&type=repositories&l=TypeScript&p=2)
 
-###### dpw | 2025-07-14
+### Agents
+
+* [Google Workspace MCP](https://github.com/aaronsb/google-workspace-mcp)
+* [Google Calendar MCP using SSE](https://github.com/gabriel-g2n/g2n-mcp-gcal-sse)
+
+
+###### dpw | 2025-07-15

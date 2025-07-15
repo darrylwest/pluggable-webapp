@@ -36,7 +36,7 @@ The UI/UX will be defined by a set of Figma mockups that will serve as the singl
 ## Data storage and management needs
 
 * The application will be hosted on **DigitalOcean** Droplets.
-* Appointment and booking data are stored in Valkey. Valkey will be used as a primary, persistent datastore, with AOF (Append Only File) persistence enabled for data durability and regular backups configured.
+* Appointment and booking data are stored in Valkey. Valkey will be used as a primary, persistent datastore, fully managed cluster + backup by **DigitalOcean**.
 * Authentication uses Firebase through a back-end service. Firebase maintains the list of user credentials.
 * User authorization roles and permissions are stored in Valkey.
 * Patient reports will be stored in **DigitalOcean** Storage Buckets. These buckets will be configured with encryption at rest, and all access will be tightly controlled through secure, time-limited methods.
