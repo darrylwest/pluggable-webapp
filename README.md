@@ -4,7 +4,7 @@
 
 I need to create a full stack web app using tRPC for client and server in a mono-repo.  
 
-The project layout would look something like this
+The project layout is **mono-repo** and would look something like this
 
 ```
 medcal
@@ -37,7 +37,7 @@ medcal
 └── tsconfig.json
 ```
 
-The html, css, and images will be served from a 
+The html, css, and images will be served from a public folder? _Whatever is standard for Vue3 applications._
 
 ## Primary Goals
 

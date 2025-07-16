@@ -13,7 +13,8 @@ By focusing on the essential needs of small clinics—simple scheduling, secure 
 * **As a Provider, I want to** set the duration of standard appointment slots (e.g., 30, 45, 60 minutes) **so that** my calendar is scheduled efficiently.
 * **As a Provider, I want to** view and manage patient-uploaded documents within the patient's profile **so that** I can inspect their medical history and test results.
 * **As a Provider, I want to** send secure, private messages to patients via the application, with notifications sent to their email or SMS, **so that** I can communicate with them efficiently.
-* **As a Provider, I want to** create and configure my cancellation policy **so that** patients understand the terms before booking.
+* **As a Provider, I want to** create and configure my cancellation policy **so** patients understand the terms before booking.
+* **As a Provider, I want to** be notified when new appointments are created, canceled or changed in any way by the user.
 
 ### The Patient
 
@@ -43,7 +44,7 @@ The UI/UX will be defined by a set of Figma mockups that will serve as the singl
 
 * The application will be hosted on **DigitalOcean** Droplets.
 * Appointment and booking data are stored in Valkey. Valkey will be used as a primary, persistent datastore, fully managed cluster + backup by **DigitalOcean**.
-* Authentication uses Firebase through a back-end service. Firebase maintains the list of user credentials.
+* Authentication uses Firebase through a back-end service. Firebase maintains the list of user credentials and session JWT keys.
 * User authorization roles and permissions are stored in Valkey.
 * Patient reports will be stored in **DigitalOcean** Storage Buckets. These buckets will be configured with encryption at rest, and all access will be tightly controlled through secure, time-limited methods.
 
