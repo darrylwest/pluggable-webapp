@@ -13,6 +13,7 @@
 ### The Patient
 
 * **As a Patient, I want to** sign up and sign in to the application **so that** I can access provider services.
+* **As a Patient, I want to** initiate a chat (AI) to help me clarify what my medical situation currnely is. I want the AI to ask questions that are helpful for the Provider to know before I book an appointment.
 * **As a Patient, I want to** send secure, private messages to the provider **so that** I can ask questions about my treatment or appointments.
 * **As a Patient, I want to** upload my medical history, test results, or other relevant documents **so that** my provider can review them.
 * **As a Patient, I want to** view the provider's open time slots and book an appointment **so that** I can schedule a visit.
