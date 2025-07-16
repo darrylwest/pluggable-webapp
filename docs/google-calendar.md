@@ -48,6 +48,67 @@ For a truly integrated and branded experience, the Google Calendar API is the re
 
 In conclusion, if you need a quick and simple way to display a public calendar and are not concerned with custom branding, the **iFrame method** is a suitable choice. However, for a professional, feature-rich, and seamlessly integrated customer-facing application, the **Google Calendar API** is the superior and recommended solution.
 
+## Automation
+
+How **Push Notifications** Work with Google Calendar
+
+Instead of you repeatedly polling Google Calendar server for changes, push notifications allow the server to proactively notify your application when a change occurs.
+This is a more efficient approach that can lead to significant savings in data usage and power, especially for mobile applications.
+
+The core components of this system are:
+
+**Webhook** (Receiving URL): This is a public HTTPS URL that you create and control.[2][3][4] Google's servers will send a POST request to this URL whenever a change happens in a calendar you're "watching".[2]
+Notification Channel: You need to set up a notification channel for each calendar resource you want to monitor.[2] This channel tells Google where to send the notifications (your webhook URL).[2]
+
+**Step-by-Step Configuration Guide**
+
+Here are the essential steps to get push notifications up and running:
+
+1. Set Up Your Google Cloud Project
+
+Create a Project: If you haven't already, create a new project in the Google Cloud Console.
+Enable the Google Calendar API: In your project's dashboard, navigate to the API library and enable the Google Calendar API.
+Create Credentials: You will need to create OAuth 2.0 credentials (a client ID and client secret) to authenticate your application. When setting up your credentials, you will need to specify the authorized JavaScript origins and redirect URIs.
+
+2. Register Your Domain
+
+Verify Ownership: You must verify that you own the domain where your webhook will be hosted.This is a crucial security step. You can do this through the Google Search Console.
+Add Domain to Project: In your Google Cloud project, under "APIs & Auth" and then "Push", you can add your verified domain.
+
+3. Create Your Webhook (Receiving URL)
+
+HTTPS is a Must: Your webhook URL must be an HTTPS address with a valid SSL certificate.[2][3] Self-signed certificates are not accepted.
+Handle Incoming POST Requests: This endpoint needs to be able to receive POST requests from Google's servers.
+
+4. Start "Watching" a Calendar
+
+To begin receiving notifications, you need to send a POST request to the watch method of the specific Calendar API resource you want to monitor (e.g., the events resource).
+Here's an example of the POST request body:
+
+```json
+{
+  "id": "YOUR_UNIQUE_CHANNEL_ID",
+  "type": "web_hook",
+  "address": "https://your-domain.com/notifications"
+}
+```
+
+Json
+
+* id: A unique string you create to identify this notification channel.
+* type: This should be set to "web_hook".
+* address: This is your HTTPS webhook URL where notifications will be sent.
+
+If the request is successful, you will receive a response confirming the creation of the notification channel.
+
+5. Handling Notifications
+
+**Initial sync Message:** After you create a channel, Google will send an initial sync message to your webhook to confirm that notifications are starting. You can safely ignore this initial message.
+
+**Notification Content:** When a change occurs in the watched calendar, Google will send a POST request to your webhook. Crucially, the body of this notification will be empty. The notification simply alerts you that a change has occurred.
+
+**Retrieving the Changes:** To find out what actually changed, you need to make another API call to the appropriate resource (e.g., events.list) and use a syncToken or a timestamp to get only the events that have been updated since your last check.
+
 ## References
 
 * [how to video](https://www.youtube.com/watch?v=h605V2y0DsI)

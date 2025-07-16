@@ -58,7 +58,7 @@ Achieving HIPAA **compliant** status is a core requirement. All development and 
 ## Potential third-party integrations
 
 * **Google Calendar:** Initially integrated via an iframe for the MVP, with a plan to migrate to the Google Calendar API for a fully custom interface.
-* **Google Automations:** To trigger work flows when a new booking event has been triggered.
+* **Google Automations:** To trigger work flows through a web-hook (if this is possible).
 * **Firebase Authentication:** For managing user sign-up and sign-in.
 * **Google Email Services (Gmail API):** For sending transactional email notifications for messages and appointments.
 * **Payment Processor:** Integration with a service like Stripe, which supports the Google Pay API for payment processing.
