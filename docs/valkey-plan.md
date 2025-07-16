@@ -30,6 +30,8 @@ We will use routing keys where the first three characters point to the domain, e
 * `crt` shopping cart item
 * `otp` one time password
 
+_These domains are examples but some applications don't support all domains._
+
 ## Client Connections
 
 Core Connection Principle: **Isolate Different Workloads**
