@@ -1,5 +1,7 @@
 # TypeScript Data Models
 
+**This is now obsolete replaced by docs/zod-schemas.md**
+
 ## Overview
 
 The model definitions are targeted for TypeScript and provide a foundation for an appointment/calendar system.
