@@ -67,8 +67,8 @@ Our MVP will use Google Calendar in an iframe and support these features:
 **For the Patient User:**
 
 * A clean, minimalist landing page where patients can sign-up and sign-in, with a design guided by our Figma mockups.
-* Sign-up form.
-* Sign-in form.
+* Sign-up form in the page header.
+* Sign-in form in the page header.
 * When signed in, a single-page view shows:
     * **Calendar View:** Displays open slots where the patient can schedule appointments.
     * **Messaging View:** Allows the patient to send and receive private messages with the provider.
