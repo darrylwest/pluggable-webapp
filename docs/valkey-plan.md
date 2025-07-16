@@ -125,4 +125,13 @@ Connection Pooling: iovalkey does not have a built-in connection pool. Each new 
 * Immediately create a separate blockingClient the moment you need to use commands like BLPOP or XREAD BLOCK.
 * Consider a backgroundClient if you have heavy, low-priority background jobs that could interfere with your primary API traffic.
 
+## Client Cache
+
+A local Valkey installation will act as a cache to the hosted version.  The cache will use select to switch between databases and include the following:
+
+* user index where the user's email address is the key and the user's key is the value (db 0)
+* user_cache : a LRU cache for user records where the max number of user records would be about 100 (db1)
+* session_cache : all the active sessions.  this would elmininate having to use the hosted solution because tokens would be in memory and in Firebase. (db 2)
+* message_queue : a LRU of messages in transit
+
 ###### dpw | 2025-07-16
