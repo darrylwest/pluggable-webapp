@@ -1,5 +1,10 @@
 # Calendar Booking Project
 
+## Product Description
+
+A modern booking platform that empowers independent medical providers to take control of their schedule and patient relationships. 
+By focusing on the essential needs of small clinics—simple scheduling, secure communication, and easy payment—the application saves time for providers and creates a better experience for patients.
+
 ## Core features and functionality
 
 ### The Medical Provider
