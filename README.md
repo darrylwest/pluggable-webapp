@@ -6,7 +6,8 @@ I need to create a full stack web app using tRPC for client and server in a mono
 
 The project layout would look something like this
 
-plugin-webapp
+```
+medcal
 ├── CLAUDE.md
 ├── node_modules
 ├── package.json
@@ -34,6 +35,7 @@ plugin-webapp
 │       └── tsconfig.json
 ├── README.md
 └── tsconfig.json
+```
 
 The html, css, and images will be served from a 
 
@@ -77,5 +79,5 @@ End-to-End Type Safety: By having the tRPC router definitions for your wrapper w
 
 Simplified Monorepo Management: It keeps related server-side logic co-located and makes dependency management straightforward within your monorepo.
 
-###### dpw | 2025-07-14
+###### dpw | 2025-07-16
 
