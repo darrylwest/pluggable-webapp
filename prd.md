@@ -1,4 +1,4 @@
-# Calendar Booking Project
+# Calendar Booking Product Requirements Document
 
 ## Product Description
 
