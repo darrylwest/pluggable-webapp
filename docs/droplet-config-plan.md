@@ -141,4 +141,53 @@ This guide outlines the successful, verified steps to create a new user named `d
 
 This process resulted in a production-ready server with a secure, non-root user for all administrative tasks.
 
+## Next Steps
+
+### dpw-env
+
+* `sudo apt update && sudo apt upgrade -y`
+* As that's running I will work on my env aliases, etc. from alamo: `scp .bash_aliases dpw@146.190.1.182`
+* add `.motd` for aliases
+* create keys for git `ssh-keygen -t rsa -f id_rsa -P ''` ; add pub to github & gitlab
+* pulled cpp-sandbox and cpp-utils and switched to the develop branch
+* **power off**, **snapshot** dpw-env **power on**
+ 
+### c++23 env
+
+This installs g++-14, node 20.16, jq, neovim, etc
+
+```bash
+sudo apt update
+
+sudo apt install -y build-essential make binutils autoconf automake libtool libgmp-dev pkg-config \
+     libmpfr-dev libmpc-dev flex bison texinfo curl wget uuid-dev python3-dev libstdc++6 locales openssh-client \
+     xz-utils git vim neovim ninja-build fswatch openssl libssl-dev iputils-ping jq libsodium-dev libncurses-dev \
+     nlohmann-json3-dev procps ca-certificates gnupg software-properties-common \
+     gcc-14 g++-14 nodejs npm clang-format-18 lcov
+```
+
+### usr/local/bin/ from docker
+
+From `docker-environments/ubuntu-gcc14`
+
+* mkcmd (bash version) just copied
+* scp task-runner 
+* scp txkey
+
+### rust
+
+```bash
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y
+
+~/.cargo/bin/cargo --version
+```
+
+* logout and back in to verify `cargo` is in the PATH
+* `cargo install lsd`
+* `cargo install bat`
+* cp .config/nvim/init.vim
+* `curl -fsSL https://bun.sh/install | bash`
+
+* **power off**, **snapshot** -dev **power on**
+
 ###### dpw | 2025.07.18
