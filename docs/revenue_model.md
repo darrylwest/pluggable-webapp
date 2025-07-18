@@ -25,13 +25,15 @@ This revenue model is tailored for solo medical providers and small clinics adop
 
 | Plan           | Monthly Fee | Description                                          |
 |----------------|-------------|------------------------------------------------------|
-| Starter        | $29         | 1 provider, up to 100 bookings, basic support        |
-| Professional   | $69         | Unlimited bookings, branding, priority support       |
-| Clinic (future)| $149+       | Multi-provider, reporting, admin tools               |
+| Starter        | $29         | calendar setup, 1 provider, basic chat and email support|
+| Professional   | $69         | calendar setup, full branding, priority support|
+| Clinic (future)| $149+       | Multi-provider, reporting, admin tools|
 
 _Ok, the clinic still fits our single-provider model, so every provider would have thier own calendar but we would brand them to the clinic's specs and create an umbrella application to enable viewing of patient lists to all providers.  And we we alter the fee structure to by by provider, at around $49/m per provider._
 
 ## Optional Add-ons
+
+**_Don't know if these actually fit, but..._**
 
 | Feature                         | Price            |
 |---------------------------------|------------------|

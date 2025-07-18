@@ -29,4 +29,6 @@
 - [ ] Send test messages and payments
 - [ ] Provide training video or documentation
 
+**_This is by no way comprehensive, but it's a start._**
+
 ###### dpw | 2025-07-17
