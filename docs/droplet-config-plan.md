@@ -190,4 +190,34 @@ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y
 
 * **power off**, **snapshot** -dev **power on**
 
+* install dotenvx ```bash
+sudo sh
+curl -sfS https://dotenvx.sh | sh
+```
+
+* **power off**, **snapshot**  **power on**
+
+## valkey
+
+```bash
+sudo apt update
+sudo apt install -y valkey
+sudo systemctl status valkey-server
+valkey-cli ping 
+```
+
+## Caddy
+
+```bash
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy
+sudo systemctl status caddy
+curl http://localhost/
+```
+
+* **power off**, **snapshot**  **power on**
+
 ###### dpw | 2025.07.18
