@@ -29,12 +29,15 @@ This revenue model is tailored for solo medical providers and small clinics adop
 | Professional   | $69         | Unlimited bookings, branding, priority support       |
 | Clinic (future)| $149+       | Multi-provider, reporting, admin tools               |
 
+_Ok, the clinic still fits our single-provider model, so every provider would have thier own calendar but we would brand them to the clinic's specs and create an umbrella application to enable viewing of patient lists to all providers.  And we we alter the fee structure to by by provider, at around $49/m per provider._
+
 ## Optional Add-ons
 
 | Feature                         | Price            |
 |---------------------------------|------------------|
 | Custom Domain Support           | $10/month        |
-| Telehealth Integration (Zoom)   | $15–$30/month    |
+| Telehealth Integration (our custom) | $15–$30/month|
 | HIPAA BAA                       | $100–$300/year   |
-| Calendar API Sync               | Pro tier+        |
 | Priority Support                | +$20/month       |
+
+###### dpw | 2025-07-17

@@ -6,7 +6,7 @@ Our platform is designed for solo providers and small clinics needing profession
 ## Plans
 
 ### Starter – $29/month
-- Up to 100 appointments
+
 - Email reminders
 - Secure messaging
 - HIPAA-ready infrastructure
@@ -17,7 +17,7 @@ Our platform is designed for solo providers and small clinics needing profession
 ---
 
 ### Professional – $69/month
-- Unlimited bookings
+
 - Branded landing page
 - Document uploads
 - Priority support
@@ -27,8 +27,12 @@ Our platform is designed for solo providers and small clinics needing profession
 ---
 
 ### Clinic – $149+/month (Coming Soon)
+
+- Clinic branding
 - Multi-provider dashboard
 - Admin tools & reporting
 - BAA + secure audit trail
 
 **Setup: Custom quote**
+
+###### dpw | 2025-07-17
