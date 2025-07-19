@@ -14,7 +14,7 @@ set -eu # Exit immediately if a command exits with a non-zero status.
 
 # --- Configuration ---
 readonly USERNAME="dpw"
-readonly STATE_FILE="providion_progress.log"
+readonly STATE_FILE="/tmp/provision_progress.log"
 
 # --- Colors for Output ---
 readonly GREEN='\033[0;32m'
@@ -68,7 +68,7 @@ update_system() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Updating system packages (apt update && upgrade) ---"
 
-    apt-get update && apt-get upgrade -y
+    apt update && apt upgrade -y
 
     mark_as_done "$task_name"
 }
@@ -93,7 +93,7 @@ cleanup_apt() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Cleaning up apt cache and unused packages ---"
 
-    apt-get autoremove -y && apt-get clean
+    apt autoremove -y && apt clean
 
     mark_as_done "$task_name"
 }
@@ -103,11 +103,11 @@ install_valkey() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Installing Valkey ---"
 
-    apt-get install -y curl gpg
+    apt install -y curl gpg
     curl -fsSL https://packages.valkey.io/valkey/gpg.key | gpg --dearmor -o /usr/share/keyrings/valkey-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/valkey-archive-keyring.gpg] https://packages.valkey.io/valkey/ubuntu/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/valkey.list
-    apt-get update
-    apt-get install -y valkey
+    apt update
+    apt install -y valkey
 
     mark_as_done "$task_name"
 }
@@ -117,11 +117,11 @@ install_caddy() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Installing Caddy Web Server ---"
 
-    apt-get install -y debian-keyring debian-archive-keyring apt-transport-https
+    apt install -y debian-keyring debian-archive-keyring apt-transport-https
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' > /usr/share/keyrings/caddy-stable-archive-keyring.gpg
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' > /etc/apt/sources.list.d/caddy-stable.list
-    apt-get update
-    apt-get install caddy
+    apt update
+    apt install caddy
 
     mark_as_done "$task_name"
 }
@@ -137,6 +137,10 @@ main() {
        exit 1
     fi
 
+    echo "-- This script will install only after you remove the exit command --"
+
+    exit 0
+
     # Create the state file if it doesn't exist
     touch "$STATE_FILE"
 
@@ -147,8 +151,9 @@ main() {
     update_system
     install_nodejs_nvm
     cleanup_apt
-    install_valkey
-    install_caddy
+
+    # install_caddy
+    # install_valkey
 
     echo -e "\n${GREEN}--- All provisioning tasks completed successfully! ---${NC}"
 }
