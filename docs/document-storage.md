@@ -13,8 +13,23 @@
 Block storage is like an extended file system.  It's encrypted, so safe for HIPAA and since it's just a filesystem,
 no new libraries are involved.  It's also fast enough to use as a data store. It uses Ceph Volume Block security.
 
-Another advantage is the ability to mount the storage from different droplet instances as a shared filesystem. 
-This makes complete upgrades as simple as a change in the edge router.
+Another advantage is the ability to mount the storage from different droplet instances, although one at a time. 
+This simplifies complete upgrades by retaining the data while droplets are taken down and brought back up.
+
+List of advanages
+
+* Block storage is a familiar paradigm. People and software understand and support files and filesystems almost universally
+* Block devices are well supported. Every programming language can easily read and write files
+* Filesystem permissions and access controls are familiar and well-understood
+* Block storage devices provide low latency IO, so they are suitable for use by databases.
+
+Disadvantages
+
+* Storage is tied to one server at a time, no shared space
+* Blocks and filesystems have limited metadata about the blobs of information they’re storing (creation date, owner, size). Any additional information about what you’re storing will have to be handled at the application and database level, which is additional complexity for a developer to worry about
+* You need to pay for all the block storage space you’ve allocated, even if you’re not using it
+* You can only access block storage through a running server
+* Block storage needs more hands-on work and setup vs object storage (filesystem choices, permissions, versioning, backups, etc.)
 
 ### Spaces
 
