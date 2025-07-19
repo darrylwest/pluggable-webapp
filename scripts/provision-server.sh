@@ -7,7 +7,7 @@
 # meaning it can be re-run safely. It tracks progress in a state file
 # and will skip steps that have already been completed.
 #
-# Usage: sudo ./provision_server.sh
+# login as root and run  ./provision-server.sh
 # ==============================================================================
 
 set -eu # Exit immediately if a command exits with a non-zero status.
@@ -131,11 +131,26 @@ install_dev_tools() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Installing core development tools ---"
 
+    # drop out the the script at this point to refine the list
+    # pull in just what is needed
+    echo "--- Task: Installing core development tools (dropping out here ---"
+    exit 0
+
     apt-get install -y build-essential make binutils autoconf automake libtool libgmp-dev pkg-config \
      libmpfr-dev libmpc-dev flex bison texinfo curl wget uuid-dev python3-dev libstdc++6 locales openssh-client \
      xz-utils git vim neovim ninja-build fswatch openssl libssl-dev iputils-ping jq libsodium-dev libncurses-dev \
      nlohmann-json3-dev procps ca-certificates gnupg software-properties-common \
-     gcc-14 g++-14 nodejs npm clang-format-18 gcov lcov
+     gcc-14 g++-14 clang-format-18 lcov
+
+    mark_as_done "$task_name"
+}
+
+install_rust()  {
+    local task_name="install_rust"
+    check_if_done "$task_name" && return 0
+    echo "--- Task: Installing rust ---"
+
+    sudo -u "$USERNAME" bash -c 'curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y'
 
     mark_as_done "$task_name"
 }
@@ -216,6 +231,7 @@ main() {
     configure_passwordless_sudo
     update_system
     install_dev_tools
+    install_rust
     install_nodejs_nvm
     cleanup_apt
     install_valkey
