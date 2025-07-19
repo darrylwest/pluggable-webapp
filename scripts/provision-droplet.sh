@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==============================================================================
-# Resumable Server Provisioning Script
+# Resumable Droplet Provisioning Script
 #
 # This script sets up a complete development environment. It is idempotent,
 # meaning it can be re-run safely. It tracks progress in a state file
@@ -14,7 +14,7 @@ set -eu # Exit immediately if a command exits with a non-zero status.
 
 # --- Configuration ---
 readonly USERNAME="dpw"
-readonly STATE_FILE="/var/log/setup_progress.log"
+readonly STATE_FILE="providion_progress.log"
 
 # --- Colors for Output ---
 readonly GREEN='\033[0;32m'
@@ -63,101 +63,12 @@ prompt_for_manual_step() {
 # INSTALLATION FUNCTIONS
 # ==============================================================================
 
-create_user() {
-    local task_name="create_user_${USERNAME}"
-    check_if_done "$task_name" && return 0
-    echo "--- Task: Creating user '$USERNAME' ---"
-
-    if id "$USERNAME" &>/dev/null; then
-        echo "User '$USERNAME' already exists."
-    else
-        adduser --disabled-password --gecos "" "$USERNAME"
-    fi
-    usermod -aG sudo "$USERNAME"
-    echo "User '$USERNAME' created and added to the sudo group."
-
-    mark_as_done "$task_name"
-}
-
-setup_ssh_keys() {
-    local task_name="setup_ssh_keys_for_${USERNAME}"
-    check_if_done "$task_name" && return 0
-    echo "--- Task: Setting up SSH keys for '$USERNAME' ---"
-
-    local ssh_dir="/home/$USERNAME/.ssh"
-    local auth_keys_file="$ssh_dir/authorized_keys"
-
-    prompt_text="Please perform the following steps in a NEW terminal:
-    1. Copy your public SSH key(s) to your clipboard.
-    2. Log into this server as '$USERNAME': ssh ${USERNAME}@<your_droplet_ip>
-    3. Create the .ssh directory and authorized_keys file:
-       mkdir -p ${ssh_dir} && touch ${auth_keys_file}
-    4. Set permissions:
-       chmod 700 ${ssh_dir} && chmod 600 ${auth_keys_file}
-    5. Paste your public key(s) into ${auth_keys_file}.
-    6. Log out of the '$USERNAME' session and return here."
-
-    prompt_for_manual_step "$prompt_text"
-
-    mark_as_done "$task_name"
-}
-
-configure_passwordless_sudo() {
-    local task_name="configure_passwordless_sudo"
-    check_if_done "$task_name" && return 0
-    echo "--- Task: Configuring passwordless sudo for '$USERNAME' ---"
-
-    # Create a sudoers file instead of editing the main one (safer).
-    local sudoers_file="/etc/sudoers.d/90-dpw-nopasswd"
-    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "$sudoers_file"
-    chmod 440 "$sudoers_file"
-    echo "Sudoers file created at $sudoers_file."
-
-    mark_as_done "$task_name"
-}
-
 update_system() {
     local task_name="update_system"
     check_if_done "$task_name" && return 0
     echo "--- Task: Updating system packages (apt update && upgrade) ---"
 
     apt-get update && apt-get upgrade -y
-
-    mark_as_done "$task_name"
-}
-
-install_dev_tools() {
-    local task_name="install_dev_tools"
-    check_if_done "$task_name" && return 0
-    echo "--- Task: Installing core development tools ---"
-
-    # drop out the the script at this point to refine the list
-    # pull in just what is needed
-    echo "--- Task: Installing core development tools (dropping out here ---"
-
-    apt install -y make xz-utils vim neovim fswatch openssl libssl-dev jq lcov btop
-
-    mark_as_done "$task_name"
-
-
-    # NOTE:
-    # only necessary if we need g++, which we wont because it's better to develop c++ in osx/linux/docker
-    # locally then scp the artifacts to the target
-    #
-    # apt-get install -y build-essential make binutils autoconf automake libtool libgmp-dev pkg-config \
-     # libmpfr-dev libmpc-dev flex bison texinfo curl wget uuid-dev python3-dev libstdc++6 locales openssh-client \
-     # xz-utils git vim neovim ninja-build fswatch openssl libssl-dev iputils-ping jq libsodium-dev libncurses-dev \
-     # nlohmann-json3-dev procps ca-certificates gnupg software-properties-common \
-     # gcc-14 g++-14 clang-format-18 lcov
-
-}
-
-install_rust()  {
-    local task_name="install_rust"
-    check_if_done "$task_name" && return 0
-    echo "--- Task: Installing rust ---"
-
-    sudo -u "$USERNAME" bash -c 'curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y'
 
     mark_as_done "$task_name"
 }
@@ -233,12 +144,7 @@ main() {
     echo "Progress is logged in $STATE_FILE. Re-run this script to resume."
 
     # --- Execute all setup tasks in order ---
-    create_user
-    setup_ssh_keys
-    configure_passwordless_sudo
     update_system
-    install_dev_tools
-    install_rust
     install_nodejs_nvm
     cleanup_apt
     install_valkey
