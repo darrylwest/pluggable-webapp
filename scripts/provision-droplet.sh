@@ -117,11 +117,16 @@ install_caddy() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Installing Caddy Web Server ---"
 
+    rm -f /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    rm -f /etc/apt/sources.list.d/caddy-stable.list
+
     apt install -y debian-keyring debian-archive-keyring apt-transport-https
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' > /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' > /etc/apt/sources.list.d/caddy-stable.list
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
     apt update
     apt install caddy
+
+    systemctl status caddy
 
     mark_as_done "$task_name"
 }
@@ -152,7 +157,8 @@ main() {
     install_nodejs_nvm
     cleanup_apt
 
-    # install_caddy
+    install_caddy
+
     # install_valkey
 
     echo -e "\n${GREEN}--- All provisioning tasks completed successfully! ---${NC}"
@@ -160,3 +166,4 @@ main() {
 
 # Run the main function
 main "$@"
+
