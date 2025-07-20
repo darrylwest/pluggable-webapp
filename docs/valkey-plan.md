@@ -61,7 +61,6 @@ Low-Priority: A background cron job that runs every hour to perform analytics, d
 
 While the background job's PIPELINE might not be a "blocking" command in the same way as BLPOP, it could still saturate the connection for a short period, potentially adding latency to your high-priority requests. Using a separate connection for the background job ensures your user-facing traffic always has a clear, responsive path to Valkey.
 
-
 ### Practical Implementation in Node.js/TypeScript
 
 ```typescript
@@ -134,4 +133,22 @@ A local Valkey installation will act as a cache to the hosted version.  The cach
 * session_cache : all the active sessions.  this would elmininate having to use the hosted solution because tokens would be in memory and in Firebase. (db 2)
 * message_queue : a LRU of messages in transit
 
-###### dpw | 2025-07-16
+## Security Considerations
+
+**Security Considerations:**
+
+The script valkey-provision-script.sh includes several security features:
+
+* Bind Configuration: Defaults to localhost (127.0.0.1)
+* Authentication: Optional password protection
+* Firewall Integration: Works with UFW
+* Proper Permissions: Sets correct file ownership and permissions
+
+For **production deployments**, this is **recommended*:
+
+* Always enable authentication (--enable-auth)
+* Configure proper firewall rules
+* Use TLS encryption for network connections
+* Regularly backup your data directory
+
+###### dpw | 2025-07-20
