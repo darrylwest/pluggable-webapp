@@ -63,7 +63,8 @@ The html, css, and images will be served from a public folder? _Whatever is stan
 * dotenvx
 * cors
 * date-fns
-* nodemon for the server
+* nodemon for the server (development)
+* pm2 for production cluster
 
 ## Other Depandencies
 
@@ -79,5 +80,5 @@ End-to-End Type Safety: By having the tRPC router definitions for your wrapper w
 
 Simplified Monorepo Management: It keeps related server-side logic co-located and makes dependency management straightforward within your monorepo.
 
-###### dpw | 2025-07-16
+###### dpw | 2025-07-21
 
