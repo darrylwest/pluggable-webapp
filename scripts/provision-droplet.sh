@@ -15,6 +15,7 @@ set -eu # Exit immediately if a command exits with a non-zero status.
 # --- Configuration ---
 readonly USERNAME="dpw"
 readonly STATE_FILE="/tmp/provision_progress.log"
+INSTALL_COMPAT=${INSTALL_COMPAT:-false}
 
 # --- Colors for Output ---
 readonly GREEN='\033[0;32m'
@@ -103,11 +104,14 @@ install_valkey() {
     check_if_done "$task_name" && return 0
     echo "--- Task: Installing Valkey ---"
 
-    apt install -y curl gpg
-    curl -fsSL https://packages.valkey.io/valkey/gpg.key | gpg --dearmor -o /usr/share/keyrings/valkey-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/valkey-archive-keyring.gpg] https://packages.valkey.io/valkey/ubuntu/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/valkey.list
-    apt update
-    apt install -y valkey
+    # Install main Valkey package
+    sudo apt install -y valkey
+    
+    # Install compatibility package if requested
+    if [[ "$INSTALL_COMPAT" == "true" ]]; then
+        print_status "Installing Valkey compatibility binaries..."
+        sudo apt install -y valkey-compat
+    fi
 
     mark_as_done "$task_name"
 }

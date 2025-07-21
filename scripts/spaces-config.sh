@@ -7,9 +7,9 @@ set -eu
 
 #!/bin/bash
 
-# Digital Ocean Spaces s3cmd Configuration Script
+# Digital Ocean Spaces awscli Configuration Script
 # Author: DevOps Engineer
-# Description: Automated setup of s3cmd for Digital Ocean Spaces
+# Description: Automated setup of awscli for Digital Ocean Spaces
 
 set -euo pipefail
 
@@ -34,10 +34,10 @@ CONFIG_FILE="$HOME/.s3cfg"
 
 # Available regions
 declare -A REGIONS=(
+    ["sfo3"]="sfo3.digitaloceanspaces.com"
     ["nyc3"]="nyc3.digitaloceanspaces.com"
     ["ams3"]="ams3.digitaloceanspaces.com"
     ["sgp1"]="sgp1.digitaloceanspaces.com"
-    ["sfo3"]="sfo3.digitaloceanspaces.com"
     ["fra1"]="fra1.digitaloceanspaces.com"
     ["tor1"]="tor1.digitaloceanspaces.com"
     ["lon1"]="lon1.digitaloceanspaces.com"
@@ -79,36 +79,28 @@ validate_region() {
     return 0
 }
 
-# Function to install s3cmd
-install_s3cmd() {
-    if command -v s3cmd &> /dev/null; then
-        print_success "s3cmd is already installed ($(s3cmd --version))"
+# Function to install awscli
+install_awscli() {
+    if command -v awscli &> /dev/null; then
+        print_success "awscli is already installed ($(awscli --version))"
         return 0
     fi
     
-    print_status "Installing s3cmd..."
+    print_status "Installing awscli..."
     
     if command -v apt &> /dev/null; then
-        sudo apt update && sudo apt install -y s3cmd
-    elif command -v dnf &> /dev/null; then
-        sudo dnf install -y s3cmd
-    elif command -v yum &> /dev/null; then
-        sudo yum install -y s3cmd
-    elif command -v brew &> /dev/null; then
-        brew install s3cmd
-    elif command -v pip3 &> /dev/null; then
-        pip3 install --user s3cmd
+        sudo apt update && sudo apt install -y awscli
     else
-        print_error "Cannot install s3cmd automatically. Please install it manually."
+        print_error "Cannot install awscli automatically. Please install it manually."
         exit 1
     fi
     
-    print_success "s3cmd installed successfully"
+    print_success "awscli installed successfully"
 }
 
 # Function to create configuration
 create_config() {
-    print_status "Creating s3cmd configuration..."
+    print_status "Creating awscli configuration..."
     
     # Backup existing config if it exists
     if [[ -f "$CONFIG_FILE" ]]; then
@@ -179,15 +171,15 @@ EOF
 
 # Function to test configuration
 test_config() {
-    print_status "Testing s3cmd configuration..."
+    print_status "Testing awscli configuration..."
     
     # Test basic connection
-    if s3cmd ls &> /dev/null; then
+    if awscli ls &> /dev/null; then
         print_success "Connection test successful"
         
         # List available spaces
         print_status "Available Spaces:"
-        s3cmd ls | while read -r line; do
+        awscli ls | while read -r line; do
             echo "  $line"
         done
         
@@ -200,78 +192,6 @@ test_config() {
         echo "  - Ensure your keys have proper permissions"
         return 1
     fi
-}
-
-# Function to show usage examples
-show_examples() {
-    echo
-    echo "=============================="
-    echo "  s3cmd Configuration Complete"
-    echo "=============================="
-    echo "Configuration file: $CONFIG_FILE"
-    echo "Region: $REGION"
-    echo "Endpoint: ${REGIONS[$REGION]}"
-    echo
-    echo "Common Usage Examples:"
-    echo "  # List all Spaces"
-    echo "  s3cmd ls"
-    echo
-    echo "  # List Space contents"
-    echo "  s3cmd ls s3://your-space-name/"
-    echo
-    echo "  # Upload file"
-    echo "  s3cmd put file.txt s3://your-space-name/"
-    echo
-    echo "  # Upload directory"
-    echo "  s3cmd put --recursive directory/ s3://your-space-name/"
-    echo
-    echo "  # Download file"
-    echo "  s3cmd get s3://your-space-name/file.txt"
-    echo
-    echo "  # Sync directories"
-    echo "  s3cmd sync local-dir/ s3://your-space-name/"
-    echo
-    echo "  # Set public permissions"
-    echo "  s3cmd setacl s3://your-space-name/file.txt --acl-public"
-    echo
-}
-
-# Function to gather credentials interactively
-gather_credentials() {
-    echo "Digital Ocean Spaces s3cmd Configuration"
-    echo "========================================"
-    echo
-    
-    # Get access key
-    while true; do
-        read -p "Enter your Digital Ocean Spaces Access Key: " ACCESS_KEY
-        if validate_key "$ACCESS_KEY" "Access Key"; then
-            break
-        fi
-    done
-    
-    # Get secret key
-    while true; do
-        read -s -p "Enter your Digital Ocean Spaces Secret Key: " SECRET_KEY
-        echo
-        if validate_key "$SECRET_KEY" "Secret Key"; then
-            break
-        fi
-    done
-    
-    # Get region
-    echo
-    print_status "Available regions:"
-    for region in "${!REGIONS[@]}"; do
-        echo "  $region (${REGIONS[$region]})"
-    done
-    
-    while true; do
-        read -p "Enter your Digital Ocean Spaces region: " REGION
-        if validate_region "$REGION"; then
-            break
-        fi
-    done
 }
 
 # Function to parse command line arguments
@@ -300,7 +220,7 @@ parse_arguments() {
                 echo "  --access-key KEY     Digital Ocean Spaces access key"
                 echo "  --secret-key KEY     Digital Ocean Spaces secret key"
                 echo "  --region REGION      Digital Ocean Spaces region"
-                echo "  --config-file PATH   Path to s3cmd config file (default: ~/.s3cfg)"
+                echo "  --config-file PATH   Path to awscli config file (default: ~/.s3cfg)"
                 echo "  --help, -h           Show this help message"
                 echo
                 echo "Available regions: ${!REGIONS[*]}"
@@ -318,8 +238,8 @@ parse_arguments() {
 main() {
     parse_arguments "$@"
     
-    # Install s3cmd if not present
-    install_s3cmd
+    # Install awscli if not present
+    install_awscli
     
     # Gather credentials if not provided via arguments
     if [[ -z "$ACCESS_KEY" || -z "$SECRET_KEY" || -z "$REGION" ]]; then
@@ -330,13 +250,12 @@ main() {
         validate_region "$REGION"
     fi
     
-    # Create configuration
-    create_config
+    # Create configuration THIS IS BROKEN
+    # create_config
     
     # Test configuration
     if test_config; then
-        show_examples
-        print_success "s3cmd configured successfully for Digital Ocean Spaces!"
+        print_success "awscli configured successfully for Digital Ocean Spaces!"
     else
         print_error "Configuration completed but testing failed. Please check your credentials."
         exit 1
