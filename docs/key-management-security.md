@@ -6,7 +6,7 @@
 
 **Here is why...**
 
-While DigitalOcean's snapshots are private to your account and encrypted at rest on their backend, embedding secret keys directly into the image (and thus, the snapshot) creates several layers of risk. The problem isn't with the snapshot feature itself, but with the underlying practice of storing secrets on the filesystem. The snapshot simply copies and perpetuates this risk.
+While DigitalOcean's **snapshots** are private to your account and encrypted at rest on their backend, embedding secret keys directly into the image (and thus, the snapshot) creates several layers of risk. The problem isn't with the snapshot feature itself, but with the underlying practice of storing secrets on the filesystem. The snapshot simply copies and perpetuates this risk.
 
 Here’s a detailed breakdown of why it's a security risk.
 
@@ -32,11 +32,11 @@ Here’s a detailed breakdown of why it's a security risk.
 
 ---
 
-### Best Practices: How to Fix This
+### Best Practices for Droplet Snapshots
 
-The goal is to create "clean" or "immutable" images that do not contain any secrets. The secrets should be provided to the Droplet at runtime.
+The goal is to create "clean" or "immutable" images that do not contain any secrets. The secrets will be provided to the Droplet at runtime.
 
-#### 1. Externalize Your Secrets
+#### 1. Externalize Secrets
 
 Instead of storing secrets on the image, use a dedicated secret management tool. The application on your Droplet will then securely fetch these secrets when it starts up.
 
@@ -59,7 +59,7 @@ Instead of storing secrets on the image, use a dedicated secret management tool.
     *   Export them as environment variables.
     *   Start your application.
 
-### Conclusion
+### Snapshot Conclusion
 
 **A snapshot of an image containing secret keys is a copy of a security liability.**
 
@@ -67,9 +67,9 @@ By separating our secrets from our application image, our snapshots become safe 
 
 ----
 
-You are absolutely right to make that connection. Your assumption is 100% correct.
+## S3 / Spaces Storage
 
-**You should never store unencrypted sensitive data in DigitalOcean Spaces (or any S3-compatible object storage).**
+**Never store unencrypted sensitive data in DigitalOcean Spaces (or any S3-compatible object storage).**
 
 While DigitalOcean provides its own layers of security, relying solely on them is a dangerous practice that has led to countless data breaches across all cloud providers. The principle is the same as with the snapshots: you are responsible for the security of your data *within* the service.
 
@@ -127,7 +127,7 @@ Think of it this way:
 *   **DigitalOcean's Server-Side Encryption** is like the locked door on the warehouse where your valuables are stored. It protects against someone breaking into the building.
 *   **Client-Side Encryption** is like putting your valuables inside a personal, locked safe *before* you even put them in the warehouse.
 
-You need both. An attacker who picks the lock on the warehouse door (steals your API keys) still can't get into your personal safe (decrypt your data).
+We need both. An attacker who picks the lock on the warehouse door (steals our API keys) still can't get into our personal decrypted  data.
 
-In short: **Treat DigitalOcean Spaces as a secure vault for your *encrypted* data, not as a secure vault for your *unencrypted* data.**
+In short: **Treat DigitalOcean Spaces as a secure vault for *encrypted* data, not as a secure vault for *unencrypted* data.**
 ###### dpw | 2025.07.23
