@@ -1,10 +1,14 @@
 # Droplet Security Procedures
 
-**The short answer is: Yes, this is a significant security risk.**
+## Overview
+
+**Start with this premise** _Any secret key or other sensitive customer data stored un-encrypted on disk poses a significant security risk._ 
+
+**Here is why...**
 
 While DigitalOcean's snapshots are private to your account and encrypted at rest on their backend, embedding secret keys directly into the image (and thus, the snapshot) creates several layers of risk. The problem isn't with the snapshot feature itself, but with the underlying practice of storing secrets on the filesystem. The snapshot simply copies and perpetuates this risk.
 
-Here’s a detailed breakdown of why it's a security risk and what you should do instead.
+Here’s a detailed breakdown of why it's a security risk.
 
 ### The Security Risks Explained
 
@@ -24,7 +28,7 @@ Here’s a detailed breakdown of why it's a security risk and what you should do
 
 *   **Violates the Principle of Least Privilege:** Secrets should only be accessible at the moment they are needed, by the process that needs them. Storing them on the filesystem makes them broadly available to any process or user with sufficient read permissions on the server.
 *   **Security Anti-Pattern:** Storing secrets in code or configuration files on an image is a well-known security anti-pattern. Modern infrastructure practices strongly advocate for externalizing configuration and secrets.
-*   **Audit and Compliance Failures:** If your company needs to comply with standards like PCI-DSS, SOC 2, or HIPAA, this practice would almost certainly be flagged as a major finding during an audit. These frameworks have strict requirements for secret and key management.
+*   **Audit and Compliance Failures:** If your company needs to comply with standards like **PCI-DSS, SOC 2, or HIPAA**, this practice would almost certainly be flagged as a major finding during an audit. These frameworks have strict requirements for secret and key management.
 
 ---
 
@@ -57,9 +61,9 @@ Instead of storing secrets on the image, use a dedicated secret management tool.
 
 ### Conclusion
 
-Your intuition is correct. **A snapshot of an image containing secret keys is a copy of a security liability.**
+**A snapshot of an image containing secret keys is a copy of a security liability.**
 
-By separating your secrets from your application image, your snapshots become safe backups of your application's logic and operating system configuration, not ticking time bombs of sensitive data. This makes your infrastructure more secure, manageable, and compliant with modern best practices.
+By separating our secrets from our application image, our snapshots become safe backups of application logic and operating system configuration, not ticking time bombs of sensitive data. This makes our infrastructure more secure, manageable, and compliant with modern best practices.
 
 ----
 
