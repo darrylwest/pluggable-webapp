@@ -135,7 +135,7 @@ install_dev_tools() {
     # pull in just what is needed
     echo "--- Task: Installing core development tools (dropping out here ---"
 
-    apt install -y make xz-utils vim neovim fswatch openssl libssl-dev jq lcov btop awscli
+    apt install -y make xz-utils vim neovim fswatch openssl libssl-dev jq lcov btop
 
     mark_as_done "$task_name"
 
