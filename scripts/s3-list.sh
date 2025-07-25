@@ -5,7 +5,7 @@
 
 set -eu
 
-for bucket in rcs-document-store rcs-database
+for bucket in rcs-develop rcs-staging
 do
     echo $bucket
     aws s3 ls s3://$bucket/ --endpoint-url https://sfo3.digitaloceanspaces.com

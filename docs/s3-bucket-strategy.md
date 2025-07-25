@@ -53,3 +53,4 @@ Migrating your S3 bucket structure is a critical task that will significantly im
 
 By adopting a two-bucket strategy, you will be building your application on a much more secure and robust foundation, giving you and your customers greater peace of mind.
 
+###### dpw | 2025.07.24
