@@ -7,6 +7,6 @@ set -eu
 
 file=test-file.txt
 
-aws s3 cp s3://rcs-document-store/$file ./tmp/$file --endpoint-url https://sfo3.digitaloceanspaces.com
+aws s3 cp s3://rcs-develop/system/$file ./tmp/$file --endpoint-url https://sfo3.digitaloceanspaces.com
 
-ls 
+ls  -l ./tmp

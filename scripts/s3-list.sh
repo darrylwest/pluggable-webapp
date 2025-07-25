@@ -13,3 +13,5 @@ do
 
 done
 
+aws s3 ls s3://rcs-develop/system/ --endpoint-url https://sfo3.digitaloceanspaces.com
+
