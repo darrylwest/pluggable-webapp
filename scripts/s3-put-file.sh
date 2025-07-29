@@ -5,6 +5,6 @@
 
 set -eu
 
-file=test-file.txt
+file=./tmp/test-file.txt
 
-aws s3 cp ./tmp/$file s3://rcs-develop/system/$file --endpoint-url https://sfo3.digitaloceanspaces.com
+cat $file | aws s3 cp - s3://rcs-develop/system/new-file.txt --endpoint-url https://sfo3.digitaloceanspaces.com

@@ -2,12 +2,13 @@
 
 ## Services Overview
 
-* **web application** (the HTML, css, typescript, and image files)
+* **web application**: (the HTML, css, typescript, and image files)
 * **reverse proxy**: to direct traffic to web pages and REST server
-* **static web service** to serve the web application
-* **REST server** for routes, middleware, models, and logic
+* **web service**: to serve the web application
+* **tRPC service**: for routes, middleware, models, and logic, shared with client UI
 * **auth-service**: a Firebase service to sign-up, sign-in, sign-out, etc. users
-* **Valkey** the database instance
+* **Valkey**: the database instance
+* **S3 storage**: the secure document-store
 
 ## Block Diagram
 
@@ -48,6 +49,10 @@ A dedicated Firebase service for handling all authentication logic.
 
 The in-memory database. It's the final destination for data storage and retrieval
 
+### S3/Spaces Storage
+
+The document store holds all uploaded documents and messages.
+
 ## **Interaction Flow (A Typical Request)**
 
 _The arrows on the diagram illustrate the lifecycle of a typical API request:_
@@ -56,9 +61,9 @@ _The arrows on the diagram illustrate the lifecycle of a typical API request:_
 
 The user's browser requests the web page. The Static Web Service serves the necessary HTML, CSS, js, image files. The Web Application now loads and runs in the browser.
 
-### API Call: 
+### RPC Call: 
 
-The user performs an action (e.g., clicks a button to fetch data). The Web Application makes a secure API call (HTTPS) to the REST API Gateway.
+The user performs an action (e.g., clicks a button to fetch data). The Web Application makes a secure RPC call (HTTPS) to the API.
 
 ### Authentication: 
 
@@ -70,7 +75,7 @@ The Auth Service validates the token signature, possibly by making an HTTPS call
 
 ### Data Request: 
 
-Once the user is authenticated, the REST API's logic proceeds. It references the user in Valkey and verifies authorization using basic roles.
+Once the user is authenticated, the RPC API's logic proceeds. It references the user in Valkey and verifies authorization using basic roles.
 
 ## Key Architectural Concepts Highlighted
 
@@ -78,21 +83,14 @@ Once the user is authenticated, the REST API's logic proceeds. It references the
 
 The system is decomposed into independently deployable services (Web Pages, REST, Auth, database).
 
-### API Gateway: 
+### RPC: _Remote Procedure Calls_ 
 
-The REST API service acts as a single entry point for the client, simplifying the client-side code and providing a centralized place for concerns like rate limiting, authentication, and routing.
+The RPC API service acts as a single entry point for the client, simplifying the client-side code and providing a centralized place for concerns like rate limiting, authentication, and routing.
 
 ### Separation of Concerns: 
 
 Each component has a single, well-defined responsibility.
 
-### Socket-based IPC: 
-
-You are using sockets for Inter-Process Communication instead of the more common HTTP/gRPC.
-
-### Unix Sockets: 
-
-These are used for communication between services running on the same host machine. They are generally faster and have lower overhead than TCP/IP sockets because they don't go through the network stack. This is an excellent choice for performance-critical, co-located services.
 
 ## What makes this Architecture "Pluggable"
 
@@ -100,5 +98,5 @@ These are used for communication between services running on the same host machi
 * ability to replace all html, css, and javascript with custom look and feel
 * ability replace model logic with alternate model service
 
-###### dpw | 2025-07-10 | 81WboxYWdYZv
+###### dpw | 2025-07-29
 
