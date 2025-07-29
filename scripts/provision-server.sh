@@ -135,10 +135,9 @@ install_dev_tools() {
     # pull in just what is needed
     echo "--- Task: Installing core development tools (dropping out here ---"
 
-    apt install -y make xz-utils vim neovim fswatch openssl libssl-dev jq lcov btop gnupg
+    apt install -y make xz-utils vim neovim fswatch openssl libssl-dev jq lcov btop unzip
 
     mark_as_done "$task_name"
-
 
     # NOTE:
     # only necessary if we need g++, which we wont because it's better to develop c++ in osx/linux/docker
