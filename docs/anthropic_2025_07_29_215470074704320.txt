@@ -1,0 +1,70 @@
+Conversation with Anthropic
+Started on July 29, 2025 at 01:44 PM Pacific Time (US & Canada) time PDT (GMT-0700)
+
+---
+
+01:44 PM | darryl west: Accept
+
+01:44 PM | Fin AI Agent: What do you need help with today?
+
+01:45 PM | darryl west: I have a pay-as-you-go plan and want to upgrade to the Max $100 plan starting next month. how can I do that?
+
+01:45 PM | Fin AI Agent: To upgrade from your pay-as-you-go plan to the Max $100 plan (Max 5x), follow these steps: 
+ 1. Log in to your Claude account at claude.ai (https://claude.ai) 
+2. Go to Settings > Billing 
+3. Select "Upgrade to Max" 
+4. Choose the 5x usage tier ($100/month) 
+5. Enter your payment information 
+6. Confirm your subscription (https://support.anthropic.com/en/articles/11049752-how-do-i-sign-up-for-the-max-plan) 
+ The Max plan is currently only available as a monthly subscription, so it will start billing immediately upon upgrade rather than waiting until next month. (https://support.anthropic.com/en/articles/11049744-how-much-does-the-max-plan-cost) Your upgrade takes effect right away with prorated billing for your current cycle. 
+ The Max 5x plan provides 5 times more usage than the Pro plan for $100 per month. 
+ 
+Sources:
+How do I sign up for the Max plan? (https://support.anthropic.com/en/articles/11049752-how-do-i-sign-up-for-the-max-plan)
+How much does the Max plan cost? (https://support.anthropic.com/en/articles/11049744-how-much-does-the-max-plan-cost)
+
+01:45 PM | Fin AI Agent: Did that answer your question?
+
+01:50 PM | Fin AI Agent: I'm here to help if you need any additional assistance with upgrading your plan. Would you like me to clarify anything about the upgrade process or the Max plan features?
+
+01:50 PM | darryl west: not exactly; my account is for claude code; I can get to my billing by token and see balances. I don't see a way to "Upgrade to Max"
+
+01:50 PM | Fin AI Agent: Since you're using Claude Code with a pay-as-you-go (Console) account, you'll need to first upgrade to a Max plan through claude.ai (https://claude.ai), then switch Claude Code to use that subscription. (https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan) 
+ Here's how: 
+ 1. Upgrade at claude.ai (https://claude.ai) first:
+• Go to claude.ai/upgrade (https://claude.ai/upgrade) to purchase a Max plan subscription
+• Choose either Max 5x ($100/month) or Max 20x ($200/month) 
+2. Switch Claude Code to your Max plan:
+• Run /login from within Claude Code
+• Select your Max plan account when prompted 
+ If you don't see the option to link your Max plan, update Claude Code first by running claude update, then restart your terminal completely. 
+ Once connected, your Max plan covers both claude.ai (https://claude.ai) and Claude Code usage under the same limits, so you won't be charged separately for Claude Code usage. 
+ 
+Source:
+Using Claude Code with your Pro or Max plan (https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan)
+
+01:50 PM | Fin AI Agent: Is that what you were looking for?
+
+01:54 PM | Fin AI Agent: I'm here to help if you need further assistance with upgrading your Claude Code account to the Max plan. Would you like me to explain any part of the process in more detail?
+
+01:56 PM | darryl west: I think I have it now. and it looks like if I signed up today, I would be re-billed on Aug-29th; how would I cancel?
+
+01:56 PM | Fin AI Agent: To cancel your Max plan subscription, follow these steps: 
+ 1. Log in to your Claude account at claude.ai (https://claude.ai) 
+2. Click on your initials in the lower left corner 
+3. Go to Settings > Billing 
+4. Select the "Cancel" button (https://support.anthropic.com/en/articles/8325617-how-do-i-cancel-my-paid-claude-subscription) 
+ Important timing: To avoid being charged for your next billing period (Aug 29th), you must cancel at least 24 hours before that date - so by Aug 28th. (https://www.anthropic.com/legal/consumer-terms) 
+ Your cancellation takes effect at the end of your current billing period, so you can continue using the Max plan until then.No refunds are provided, but you'll retain access through the paid period. 
+ 
+Sources:
+How do I cancel my paid Claude subscription? (https://support.anthropic.com/en/articles/8325617-how-do-i-cancel-my-paid-claude-subscription)
+How do I change the email address associated with my account? (https://support.anthropic.com/en/articles/8452276-how-do-i-change-the-email-address-associated-with-my-account)
+Consumer Terms of Service \ Anthropic (https://www.anthropic.com/legal/consumer-terms)
+
+01:56 PM | Fin AI Agent: Was that helpful?
+
+01:57 PM | darryl west: yes, very
+
+---
+Exported from Anthropic on July 29, 2025 at 01:58 PM Pacific Time (US & Canada) time PDT (GMT-0700)
